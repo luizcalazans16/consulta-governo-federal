@@ -57,12 +57,13 @@ public class AuxilioEmergencialServiceImpl implements AuxilioEmergencialService 
                         .valor(jsonObject.getDouble("valor"))
                         .build());
             }
-
             for (AuxilioEmergencialDto auxilioEmergencialDto : auxilioEmergencialList) {
                 GovernoFederalResponseDto map = AuxilioEmergencialMapper.map(auxilioEmergencialDto);
                 governoFederalResponseList.add(map);
             }
+            
             return governoFederalResponseList;
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
