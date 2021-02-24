@@ -1,4 +1,4 @@
-package br.com.calazans.consultagovernofederal;
+package br.com.calazans.consultagovernofederal.controller;
 
 import br.com.calazans.consultagovernofederal.dto.response.GovernoFederalResponseDto;
 import br.com.calazans.consultagovernofederal.service.AuxilioEmergencialService;

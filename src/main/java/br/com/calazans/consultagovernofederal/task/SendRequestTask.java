@@ -1,4 +1,4 @@
-package br.com.calazans.consultagovernofederal;
+package br.com.calazans.consultagovernofederal.task;
 
 import java.io.IOException;
 import java.net.http.HttpClient;

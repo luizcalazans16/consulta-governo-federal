@@ -1,6 +1,6 @@
 package br.com.calazans.consultagovernofederal.service.impl;
 
-import br.com.calazans.consultagovernofederal.SendRequestTask;
+import br.com.calazans.consultagovernofederal.task.SendRequestTask;
 import br.com.calazans.consultagovernofederal.constants.Constants;
 import br.com.calazans.consultagovernofederal.dto.AuxilioEmergencialDto;
 import br.com.calazans.consultagovernofederal.dto.BeneficiarioDto;
