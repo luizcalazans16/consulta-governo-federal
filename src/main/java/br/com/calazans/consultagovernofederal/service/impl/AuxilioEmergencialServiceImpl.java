@@ -19,14 +19,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Service
 @Slf4j
 public class AuxilioEmergencialServiceImpl implements AuxilioEmergencialService {
+
+    private static final String REQUEST_HEADER_NAME_GOVERNO_FEDERAL = "chave-api-dados";
+    private static final String REQUEST_HEADER_VALUE_GOVERNO_FEDERAL = "69dd055486cdd4ee571e55b6f66afb6f";
 
     @Override
     public List<GovernoFederalResponseDto> findAuxilioEmergencialByCpf(String cpf) {
@@ -37,7 +37,7 @@ public class AuxilioEmergencialServiceImpl implements AuxilioEmergencialService 
         HttpRequest request = HttpRequest.newBuilder(URI.create(Constants.DEFAULT_URL
                 .concat(Constants.AUXILIO_EMERGENCIAL_BY_CPF_ENDPOINT)
                 .concat(cpf)))
-                .header("chave-api-dados", "69dd055486cdd4ee571e55b6f66afb6f")
+                .header(REQUEST_HEADER_NAME_GOVERNO_FEDERAL, REQUEST_HEADER_VALUE_GOVERNO_FEDERAL)
                 .GET()
                 .build();
 
@@ -69,19 +69,24 @@ public class AuxilioEmergencialServiceImpl implements AuxilioEmergencialService 
     }
 
     private HttpResponse<String> invokeCallable(SendRequestTask task) {
-        System.out.println("Abrindo thread...");
+        log.info("Abrindo thread...");
         ExecutorService executorService = Executors.newCachedThreadPool();
-        System.out.println("Enviando requisição para o serviço do governo federal...");
+        log.info("Thread pool criado: [{}]", executorService.toString());
+        log.info("Enviando requisição para o serviço do governo federal...");
         Future<HttpResponse<String>> futureCall = executorService.submit(task);
+        log.info("Thread pool após envio: [{}]  ", executorService.toString());
         HttpResponse<String> result = null;
 
         try {
             result = futureCall.get();
-            System.out.println("Shutting down...");
+            log.info("Shutting down...");
             executorService.shutdown();
+            log.info("Thread pool encerrado: [{}]", executorService.toString());
         } catch (InterruptedException e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         } catch (ExecutionException e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         }
         return result;
